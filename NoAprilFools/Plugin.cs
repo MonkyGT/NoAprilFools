@@ -3,7 +3,7 @@ using HarmonyLib;
 
 namespace NoAprilFools
 {
-    [BepInPlugin("monky.noaprilfools", "NoAprilFools", "1.0.0")]
+    [BepInPlugin("monky.noaprilfools", "NoAprilFools", "1.0.2")]
     public class Plugin : BaseUnityPlugin
     {
         public void Awake()
