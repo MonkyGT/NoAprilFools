@@ -1,47 +1,41 @@
 ﻿using BepInEx;
 using HarmonyLib;
+using UnityEngine;
 
 namespace NoAprilFools
 {
     [BepInPlugin("monky.noaprilfools", "NoAprilFools", "1.0.0")]
     public class Plugin : BaseUnityPlugin
     {
-        bool inRoom;
 
         void Start()
         {
-            var harmony = Harmony.CreateAndPatchAll(GetType().Assembly, "monky.noaprilfools");
             
             GorillaTagger.OnPlayerSpawned(OnGameInitialized);
         }
 
         void OnGameInitialized()
         {
-            
+            GameObject April;
+            April = VRRig.LocalRig.transform.GetChild(13).gameObject; 
+            if (April.transform.name == "AprilFools") 
+            { 
+                April.SetActive(false); 
+            }
         }
 
         void Update()
         {
-            if (NetworkSystem.Instance.InRoom)
+            foreach (VRRig vrig in GorillaParent.instance.vrrigs)
             {
-                if (!inRoom)
+                if (!vrig.isLocal)
                 {
-                    inRoom = true;
-                }
-            }
-            else
-            {
-                if (inRoom)
-                {
-                    inRoom = false;
-                }
-            }
-
-            if (inRoom)
-            {
-                foreach (VRRig vrig in GorillaParent.instance.vrrigs)
-                {
-                    vrig.transform.GetChild(13).gameObject.SetActive(false);
+                    GameObject April;
+                    April = vrig.transform.GetChild(13).gameObject;
+                    if (April.transform.name == "AprilFools")
+                    {
+                        April.SetActive(false);
+                    }
                 }
             }
         }
